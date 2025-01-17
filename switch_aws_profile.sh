@@ -9,8 +9,6 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-CREDENTIALS_FILE=~/.aws/credentials
-
 accounts_list=($(aws configure list-profiles))
 
 current_account=$(env | grep AWS_PROFILE | cut -d'=' -f2)
