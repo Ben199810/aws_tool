@@ -9,6 +9,12 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
+set_profile() {
+  export AWS_PROFILE=${selected_account}
+  echo -e "${GREEN}Switched to AWS profile: $AWS_PROFILE${NC}"
+  aws sts get-caller-identity --no-cli-pager
+}
+
 accounts_list=($(aws configure list-profiles))
 
 current_account=$(env | grep AWS_PROFILE | cut -d'=' -f2)
@@ -21,13 +27,10 @@ select selected_account in "${accounts_list[@]}"; do
           echo -e "${YELLOW}Already using this account.${NC}"
           echo -e "${BLUE}Logout and login again to switch account.${NC}"
           unset AWS_PROFILE
-          export AWS_PROFILE=${selected_account}
-          echo -e "${GREEN}Switched to AWS profile: $AWS_PROFILE${NC}"
+          set_profile
         elif [ -n "$selected_account" ]; then
           echo -e "${BLUE}Selected AWS Account: $selected_account${NC}"
-          export AWS_PROFILE=${selected_account}
-          echo -e "${GREEN}Switched to AWS profile: $AWS_PROFILE${NC}"
-          aws sts get-caller-identity --no-cli-pager
+          set_profile
         else
           echo -e "${RED}Invalid selection.${NC}"
         fi
