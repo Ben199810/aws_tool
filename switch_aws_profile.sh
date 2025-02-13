@@ -2,12 +2,11 @@
 
 # 執行此腳本請使用 source 指令
 
+# 取得執行腳本當前目錄
+DIR="$(dirname $0)"
+
 # 字體顏色
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+source ${DIR}/modules/colors.sh
 
 set_profile() {
   export AWS_PROFILE=${selected_account}
